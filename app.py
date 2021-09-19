@@ -6,11 +6,14 @@ from wtforms.validators import InputRequired, Email, Length
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 import requests
+import os
 import json
 
+
+file_path = os.path.abspath(os.getcwd())+"\database.db"
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'very secret'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:/Users/andre/Desktop/start/database.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///'+file_path
 Bootstrap(app)
 db = SQLAlchemy(app)
 # login_manager = LoginManager()     DOESNT WORK ANYMORE
@@ -21,6 +24,7 @@ db = SQLAlchemy(app)
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(15), unique=True)
+    email = db.Column(db.String(50), unique=True)
     password = db.Column(db.String(80))
 
 
